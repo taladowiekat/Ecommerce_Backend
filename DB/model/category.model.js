@@ -3,6 +3,7 @@ import  mongoose, { Schema, Types, model } from "mongoose";
 const categorySchema = new Schema({
     name : {
         type:String,
+        unique : true,
         required: true,
         min:4,
         max:20
@@ -20,8 +21,8 @@ const categorySchema = new Schema({
         default:'Active',
         enum:["Active", "NotActive"],
     },
-    createdBy:{type:Types.ObjectId,ref:'User', required:true},
-    updatedBy:{type:Types.ObjectId,ref:'User', required:true},
+    createdBy:{type:Types.ObjectId,ref:'User'},
+    updatedBy:{type:Types.ObjectId,ref:'User'},
 },
 {
     timestamps:true,
