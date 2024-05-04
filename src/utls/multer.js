@@ -11,10 +11,10 @@ function fileUpload(customTypes = []) {
 
     function fileFilter(req, file, cb) {
 
-        if(customTypes.includes(file.mimtype)){
+        if(customTypes.includes(file.mimetype)){
             cb(null, true)
         }else{
-            cb(null, false)
+            cb("invaled format", false)
         }
 
     }
