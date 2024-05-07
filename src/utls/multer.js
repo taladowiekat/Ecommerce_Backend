@@ -14,7 +14,7 @@ function fileUpload(customTypes = []) {
         if(customTypes.includes(file.mimetype)){
             cb(null, true)
         }else{
-            cb("invaled format", false)
+            cb("invalid format", false)
         }
 
     }
