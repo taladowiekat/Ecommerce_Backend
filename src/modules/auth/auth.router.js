@@ -5,6 +5,9 @@ const router = Router();
 
 router.post('/register', controller.register);
 router.post('/login',controller.login);
+router.patch('/sendCode',controller.sendCode);
+router.patch('/forgotPassword',controller.forgotPassword);
+
 // router.get('/active',controller.getActive);
 // router.get('/:id',controller.getDetails);
 // router.patch('/:id',fileUpload(fileType.image).single('image'),controller.update);
