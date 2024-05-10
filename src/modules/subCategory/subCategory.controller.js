@@ -1,6 +1,7 @@
 import slugify from "slugify";
 import categoryModel from "../../../DB/model/category.model.js";
 import cloudinary from "../../utls/cloudinary.js";
+import subCategoryModel from "../../../DB/model/subCategory.model.js";
 
 // export const create = async(req, res) => {
 //     const name = req.body.name .toLowerCase();
@@ -19,6 +20,12 @@ import cloudinary from "../../utls/cloudinary.js";
 // }
 
 export const create = async (req, res) => {
+    const{categoryId}= req.body
+
+    const category = await categoryModel.findById(categoryId);
+
+    if(!category) {return res.status(404).json({ message: "category not found"})}
+
     req.body.name = req.body.name.toLowerCase();
     
     if (await categoryModel.findOne({ name: req.body.name })) {
@@ -27,29 +34,23 @@ export const create = async (req, res) => {
 
     req.body.slug = slugify(req.body.name);
     const {secure_url, public_id} = await cloudinary.uploader.upload(req.file.path, {
-        folder: 'talaShop/categories'
+        folder: 'talaShop/subCategories'
     });
 
     req.body.image = {secure_url,public_id};
     req.body.createdBy = req.user._id
     req.body.updatedBy = req.user._id
 
-    const category = await categoryModel.create(req.body);
+  const subcategory = await subCategoryModel.create(req.body);
 
-    return res.json({ message: category });
+return res.json({ message: subcategory });
 }
 
 export const getAll =async(req,res) =>{
-    const categories = await categoryModel.find({}).populate([{
-        path:"createdBy",
-        select:"userName",
-    }
-    ,
-    {
-        path:"subCategory",
-    }]
-    );
-    return res.status(200).json({ message: "success" , categories });
+    const {id} = req.params;
+   
+    const subCategories = await subCategoryModel.find({categoryId:id});
+    return res.status(200).json({ message: "success" , subCategories });
 }
 
 export const getActive = async(req,res) =>{
