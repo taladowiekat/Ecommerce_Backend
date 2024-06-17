@@ -3,7 +3,7 @@ import categoriesRouter from './modules/category/category.router.js';
 import subCategoriesRouter from './modules/subCategory/subCategory.router.js';
 import productRouter from './modules/product/product.router.js';
 import authRouter from './modules/auth/auth.router.js';
-
+import cartRouter from './modules/cart/cart.router.js';
 import cors from 'cors';
 
 const initApp = (app, express) => {
@@ -17,6 +17,7 @@ const initApp = (app, express) => {
     app.use('/subCategories', subCategoriesRouter);
     app.use('/auth', authRouter)
     app.use('/products', productRouter);
+    app.use('/cart', cartRouter);
     app.use('*', (req, res) => {
         return res.status(404).json({ message: "page not found" });
     })
