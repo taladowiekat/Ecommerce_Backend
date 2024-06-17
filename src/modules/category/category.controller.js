@@ -92,11 +92,9 @@ return res.json({message: "Success" , category})
 }
 
 export const destroy = async (req, res) => {
-
     const category =await categoryModel.findByIdAndDelete(req.params.id);
     if(!category){
         return res.status(404).json({message:"category not found"});
     }
-
     return res.json({message:"category deleted", category});
 }

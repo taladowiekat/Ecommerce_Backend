@@ -33,6 +33,11 @@ export const login = async (req, res) => {
         return res.status(409).json({ message: 'invalid data , email not found' });
     }
 
+
+if(!user.confirmEmail){
+    return res.status(400).json({ message: "please confirm your email" });
+}
+
     if (user.status == "NotActive") {
         return res.status(403).json({ message: 'your account is bloked' });
     }

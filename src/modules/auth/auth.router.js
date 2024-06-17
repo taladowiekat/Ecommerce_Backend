@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import * as controller from './auth.controller.js'
 import fileUpload, { fileType } from '../../utls/multer.js';
+import { auth } from '../../middleware/auth.middleware.js';
 const router = Router();
 
 router.post('/register', controller.register);
