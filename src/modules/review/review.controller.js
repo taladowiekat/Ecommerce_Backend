@@ -1,3 +1,5 @@
+import orderModel from "../../../DB/model/order.model.js"
+
 export const create =async(req,res)=>{
     const{productId} = req.params
     const{comment , rating} = req.body
