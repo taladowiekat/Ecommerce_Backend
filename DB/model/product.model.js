@@ -19,8 +19,8 @@ const productSchema = new Schema({
     },
     stock:{
         type:Number,
-        deafult:1
-    },
+        default:1
+        },
     price:{
         type:Number,
         required: true,
@@ -36,7 +36,7 @@ const productSchema = new Schema({
         type:Object,
         required: true,
     },
-    sybImages:[{
+    subImages:[{
         type:Object,
         required: true,
     }],
@@ -65,9 +65,15 @@ const productSchema = new Schema({
 },
 {
     timestamps:true,
-
+    toJSON:{virtuals:true},
+    toObject:{virtuals:true}
 });
 
+productSchema.virtual('reviews', {
+    ref:'Review',
+    localField:'_id',
+    foreignField:'productId'
+})
 
 
 const productModel = model('Product', productSchema);
