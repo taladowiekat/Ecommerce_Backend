@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import * as controller from './product.controller.js'
+import * as controller from './review.controller.js'
 import { auth } from '../../middleware/auth.middleware.js';
 import fileUpload, { fileType } from '../../utls/multer.js';
 
