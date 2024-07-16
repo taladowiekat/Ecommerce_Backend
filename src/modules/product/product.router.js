@@ -4,7 +4,7 @@ import fileUpload, { fileType } from '../../utls/multer.js';
 import reviewRouter from '../review/review.router.js';
 import * as schema from './product.validation.js';
 import { auth } from '../../middleware/auth.middleware.js';
-import { validation } from '../../utls/validation.js';
+import { validation } from '../../middleware/validation.js';
 import { asyncHandler } from '../../utls/catchError.js';
 
 const router = Router();
