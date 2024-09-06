@@ -10,9 +10,6 @@ const router = Router();
 router.post('/register',validation(schema.registerSchema) , checkEmail, asyncHandler(controller.register));
 
 
-router.post('/Excel' , fileUpload(fileType.excel).single('excel'),asyncHandler(controller.addUserExcel))
-
-
 router.post('/login',validation(schema.loginSchema) , asyncHandler(controller.login));
 
 

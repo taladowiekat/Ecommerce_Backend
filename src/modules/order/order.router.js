@@ -12,7 +12,7 @@ router.post('/', auth(['User']), asyncHandler(controller.create));
 router.get('/userOrders', auth(['User']), asyncHandler(controller.getUserOrders));
 
 
-router.patch('/:orderId/status', auth(['Admin']), asyncHandler(controller.changeStatus));
+router.patch('/:orderId/status', auth(['Admin']), asyncHandler(controller.changeStatus));//*
 
 
 router.get('/pendingConfirmed', auth(['Admin']), asyncHandler(controller.getOrders));

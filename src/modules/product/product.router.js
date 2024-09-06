@@ -18,12 +18,11 @@ router.post('/' , auth(['Admin']),
         { name: 'mainImage', maxCount: 1 },
         { name: 'subImage', maxCount: 5 }
     ]),
-    validation(schema.createProductSchema),
     asyncHandler(controller.create)
 );
 
 
-router.get('/', validation(schema.getProductSchema), asyncHandler(controller.getProduct));
+router.get('/',  asyncHandler(controller.getProduct));//*
 
 export default router;
 

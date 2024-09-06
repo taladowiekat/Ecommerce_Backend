@@ -6,41 +6,47 @@ import cloudinary from "../../utls/cloudinary.js";
 import { pagination } from "../../utls/pagination.js";
 
 export const create = async (req, res) => {
-    const { name, price, discount, categoryId, subcategoryId } = req.body;
-
-    const checkCategory = await categoryModel.findById(categoryId);
-    if (!checkCategory) {
-        return res.status(404).json({ message: "Category not found" });
-    }
-
-    const checkSubCategory = await subCategoryModel.findOne({ _id: subcategoryId, categoryId });
-    if (!checkSubCategory) {
-        return res.status(404).json({ message: "Subcategory not found" });
-    }
-
-    req.body.slug = slugify(name);
-    req.body.finalPrice = price - ((price * (discount || 0)) / 100);
-
-    if (!req.files || !req.files.mainImage || !req.files.mainImage[0]) {
-        return res.status(400).json({ message: "Main image is required" });
-    }
-
-    const { secure_url, public_id } = await cloudinary.uploader.upload(req.files.mainImage[0].path, { folder: `talaShop/product/${name}` });
-
-    req.body.mainImage = { secure_url, public_id };
-
-    req.body.subImage = [];
-    if (req.files.subImage) {
-        for (const file of req.files.subImage) {
-            const { secure_url, public_id } = await cloudinary.uploader.upload(file.path, { folder: `talaShop/product/${name}/subImages` });
-            req.body.subImage.push({ secure_url, public_id });
+    try {
+        const { name, price, discount, categoryId, subcategoryId } = req.body;
+        
+        const checkCategory = await categoryModel.findById(categoryId);
+        if (!checkCategory) {
+            return res.status(404).json({ message: "Category not found" });
         }
+
+        const checkSubCategory = await subCategoryModel.findOne({ _id: subcategoryId, categoryId });
+        if (!checkSubCategory) {
+            return res.status(404).json({ message: "Subcategory not found" });
+        }
+
+        req.body.slug = slugify(name);
+        req.body.finalPrice = price - ((price * (discount || 0)) / 100);
+
+        if (!req.files || !req.files.mainImage || !req.files.mainImage[0]) {
+            return res.status(400).json({ message: "Main image is required" });
+        }
+
+        const { secure_url, public_id } = await cloudinary.uploader.upload(req.files.mainImage[0].path, { folder: `talaShop/product/${name}` });
+
+        req.body.mainImage = { secure_url, public_id };
+
+        req.body.subImage = [];
+        if (req.files.subImage) {
+            for (const file of req.files.subImage) {
+                const { secure_url, public_id } = await cloudinary.uploader.upload(file.path, { folder: `talaShop/product/${name}/subImages` });
+                req.body.subImage.push({ secure_url, public_id });
+            }
+        }
+
+        const product = await productModel.create(req.body);
+        return res.status(201).json({ message: "success", product });
+
+    } catch (error) {
+        console.error("Error in create product:", error);
+        return res.status(500).json({ message: "Server error", error: error.message });
     }
-
-    const product = await productModel.create(req.body);
-
-    return res.status(201).json({ message: "success", product });
 };
+
 
 export const getProduct = async (req, res) => {
 

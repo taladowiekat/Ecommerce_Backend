@@ -6,6 +6,7 @@ import authRouter from './modules/auth/auth.router.js';
 import cartRouter from './modules/cart/cart.router.js';
 import couponRouter from './modules/cuopon/cuopon.router.js';
 import orderRouter from './modules/order/order.router.js';
+import reviewRouter from './modules/review/review.router.js';
 import cors from 'cors';
 
 const initApp = (app, express) => {
@@ -22,12 +23,13 @@ const initApp = (app, express) => {
     app.use('/cart', cartRouter);
     app.use('/coupon', couponRouter);
     app.use('/order', orderRouter);
+    app.use('/review', reviewRouter);
     app.use('*', (req, res) => {
         return res.status(404).json({ message: "page not found" });
     })
 
-    app.use((err,req,res,next)=>{
-        res.status(err.statusCode).json({ message: err.message});
-    })
+    // app.use((err,req,res,next)=>{
+    //     res.status(err.statusCode).json({ message: err.message});
+    // })
 }
 export default initApp;
